@@ -127,9 +127,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="scr\PDEs\ContinuityPressureSystem.cpp" />
+    <ClCompile Include="scr\PDEs\ContinuityVelocitySystem.cpp" />
+    <ClCompile Include="scr\PDEs\DiffusionSystem.cpp" />
+    <ClCompile Include="scr\PDEs\INonLinearSystem.cpp" />
     <ClCompile Include="scr\Simulator.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="scr\BoundaryConditions\BoundaryCondition_Constant.h" />
+    <ClInclude Include="scr\BoundaryConditions\BoundaryCondition_Flux.h" />
+    <ClInclude Include="scr\BoundaryConditions\IBoundaryCondition.h" />
     <ClInclude Include="scr\PDEs\ContinuityPressureSystem.h" />
     <ClInclude Include="scr\PDEs\ContinuityVelocitySystem.h" />
     <ClInclude Include="scr\PDEs\DiffusionSystem.h" />

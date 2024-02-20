@@ -73,14 +73,14 @@ public:
                 vectorOfNonLinearSystems[i]->xPrev[0] = vectorOfNonLinearSystems[i]->x;
             }
 
-        }
+            for (size_t i = 0; i < vectorOfNonLinearSystems.size(); i++)
+            {
+                VectorPrinter::printVector(vectorOfNonLinearSystems[i]->x);
+            }
 
-        for (size_t i = 0; i < vectorOfNonLinearSystems.size(); i++)
-        {
-            VectorPrinter::printVector(vectorOfNonLinearSystems[i]->x);
-        }
+            std::cout << "error = " << error << "\tOutter Itterations = " << itterations << "\n";
 
-        std::cout << "error = " << error << "\tOutter Itterations = " << itterations << "\n";
+        }
 
     }
 

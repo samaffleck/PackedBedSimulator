@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include "../VectorFunctions/VectorNorm.h"
+#include "../BoundaryConditions/IBoundaryCondition.h"
 
 
 class INonLinearSystem {
@@ -19,6 +20,7 @@ public:
         {
             xPrev.push_back(_x);            // Copy initial vector to the previous vector for all orders.
         }
+        rhs.resize(x.size());
     }
     ~INonLinearSystem() {}
 
@@ -29,22 +31,15 @@ public:
     std::vector<double> x;                     // Vector of scalar elements
     std::vector<double> e;                     // Function result
     std::vector<std::vector<double>> xPrev;    // Vectors at previous time steps depending on the order...
+    std::vector<double> rhs{};
 
-    virtual void gaussSeidel(const double& dt) = 0;
-    virtual double evaluateError(const double& dt) = 0;
+    IBoundaryCondition* inletBoundaryCondition = nullptr;
+    IBoundaryCondition* outletBoundaryCondition = nullptr;
 
-    void innerItteration(const int& maxItterations, const double& tolerance, const double& timeStep) {
-        error = tolerance * 100;
-        itterations = 0;
+    virtual void updateRHS(const double& dt) = 0;
 
-        while (error > tolerance && itterations < maxItterations) {
-            gaussSeidel(timeStep);
-            error = evaluateError(timeStep);
-            itterations++;
-        }
-
-        std::cout << "error = " << error << "\tInner Itterations = " << itterations << "\n";
-
-    }
+    void gaussSeidel(const double& dt);
+    double evaluateError(const double& dt);
+    void innerItteration(const int& maxItterations, const double& tolerance, const double& timeStep);
 
 };

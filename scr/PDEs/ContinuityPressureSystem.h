@@ -11,14 +11,13 @@ public:
         INonLinearSystem(_x, _order) {}
     ~ContinuityPressureSystem() {}
 
-    std::vector<double>* u = nullptr;
+    double dx = 0.05;
+    double kappa = 9e-9;
+    double vis = 2e-5;
+    double const1 = kappa / (3 * vis * dx * dx);
 
-    void gaussSeidel(const double& dt) override {
+    INonLinearSystem* uSystem = nullptr;
 
-    }
-
-    double evaluateError(const double& dt) override {
-        return 0;
-    }
+    void updateRHS(const double& dt) override;
 
 };
