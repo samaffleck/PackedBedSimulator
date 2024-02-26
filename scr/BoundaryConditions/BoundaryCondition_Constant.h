@@ -10,4 +10,8 @@ public:
 		IBoundaryCondition(BoundaryConditionType::CONSTANT, _boundaryValue) {};
 	~BoundaryCondition_Constant() {};
 
+	void update(const double& currentTime) override {
+		// No update;
+	}
+
 };

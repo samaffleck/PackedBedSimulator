@@ -8,11 +8,12 @@ public:
 
     DiffusionSystem(
         std::vector<double> _x,
-        int _order) :
-        INonLinearSystem(_x, _order){}
+        int _order,
+        int _numberOfCells,
+        double _length) :
+        INonLinearSystem(_x, _order, _length, _numberOfCells) {}
     ~DiffusionSystem() {}
 
-    double dx = 0.002;
     double dxSquared = dx * dx;
     double D = 0.5;
     double D_dxSquaredInv = D / dxSquared;

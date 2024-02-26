@@ -32,6 +32,6 @@ void INonLinearSystem::innerItteration(const int& maxItterations, const double& 
         itterations++;
     }
 
-    std::cout << "error = " << error << "\tInner Itterations = " << itterations << "\n";
+    //std::cout << "error = " << error << "\tInner Itterations = " << itterations << "\n";
 
 }

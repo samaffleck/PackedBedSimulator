@@ -11,10 +11,15 @@ class INonLinearSystem {
 public:
     INonLinearSystem(
         std::vector<double> _x,
-        int _order) :
+        int _order,
+        double _length,
+        int _numberOfcells) :
+        length(_length),
+        numberOfcells(_numberOfcells),
         x(_x),
         order(_order)
     {
+        dx = length / _numberOfcells;
         e.resize(x.size());
         for (int i = 0; i < order; i++)
         {
@@ -27,6 +32,10 @@ public:
     int order{};
     int itterations{};
     double error{};
+
+    double length{};
+    int numberOfcells{};
+    double dx{};
 
     std::vector<double> x;                     // Vector of scalar elements
     std::vector<double> e;                     // Function result

@@ -76,6 +76,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -90,6 +91,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -104,6 +106,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -118,6 +121,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -127,8 +131,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="scr\DataLogger\DataLogger.cpp" />
+    <ClCompile Include="scr\PDEs\BurgesEquation.cpp" />
     <ClCompile Include="scr\PDEs\ContinuityPressureSystem.cpp" />
     <ClCompile Include="scr\PDEs\ContinuityVelocitySystem.cpp" />
+    <ClCompile Include="scr\PDEs\ConvectionEquation.cpp" />
     <ClCompile Include="scr\PDEs\DiffusionSystem.cpp" />
     <ClCompile Include="scr\PDEs\INonLinearSystem.cpp" />
     <ClCompile Include="scr\Simulator.cpp" />
@@ -136,9 +143,14 @@
   <ItemGroup>
     <ClInclude Include="scr\BoundaryConditions\BoundaryCondition_Constant.h" />
     <ClInclude Include="scr\BoundaryConditions\BoundaryCondition_Flux.h" />
+    <ClInclude Include="scr\BoundaryConditions\BoundaryCondition_Pulse.h" />
+    <ClInclude Include="scr\BoundaryConditions\BoundaryCondition_Step.h" />
     <ClInclude Include="scr\BoundaryConditions\IBoundaryCondition.h" />
+    <ClInclude Include="scr\DataLogger\DataLogger.h" />
+    <ClInclude Include="scr\PDEs\BurgesEquation.h" />
     <ClInclude Include="scr\PDEs\ContinuityPressureSystem.h" />
     <ClInclude Include="scr\PDEs\ContinuityVelocitySystem.h" />
+    <ClInclude Include="scr\PDEs\ConvectionEquation.h" />
     <ClInclude Include="scr\PDEs\DiffusionSystem.h" />
     <ClInclude Include="scr\PDEs\INonLinearSystem.h" />
     <ClInclude Include="scr\Solver\NonLinearSolver.h" />

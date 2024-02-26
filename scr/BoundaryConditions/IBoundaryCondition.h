@@ -2,7 +2,9 @@
 
 enum class BoundaryConditionType {
 	CONSTANT,
-	FLUX
+	FLUX,
+	STEP,
+	PULSE
 };
 
 class IBoundaryCondition {
@@ -14,5 +16,7 @@ public:
 
 	BoundaryConditionType type;
 	double boundaryValue;
+
+	virtual void update(const double& currentTime) = 0;
 
 };

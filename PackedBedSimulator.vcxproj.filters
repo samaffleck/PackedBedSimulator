@@ -30,6 +30,15 @@
     <ClCompile Include="scr\PDEs\INonLinearSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="scr\PDEs\BurgesEquation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scr\PDEs\ConvectionEquation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scr\DataLogger\DataLogger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scr\VectorFunctions\VectorNorm.h">
@@ -63,6 +72,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="scr\BoundaryConditions\BoundaryCondition_Flux.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="scr\PDEs\BurgesEquation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="scr\PDEs\ConvectionEquation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="scr\DataLogger\DataLogger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="scr\BoundaryConditions\BoundaryCondition_Step.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="scr\BoundaryConditions\BoundaryCondition_Pulse.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

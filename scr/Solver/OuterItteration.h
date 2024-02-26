@@ -22,7 +22,7 @@ public:
     int maxItterations{};
     std::vector<INonLinearSystem*> vectorOfNonLinearSystems{};
 
-    void solve(double& timeStep, double& currentTime) {
+    bool solve(double& timeStep, double& currentTime) {
 
         itterations = 0;
         error = outerTolerance * 100;
@@ -50,35 +50,16 @@ public:
         {
             /* Halve the time step and don't update x */
 
-            timeStep *= 0.5;
+            //timeStep *= 0.5;
+
+            return false; // Not a successful step
 
         }
         else {
             /* Accept the step, increase the time step and update x*/
 
-            currentTime += timeStep;
-            timeStep *= 2;
-            if (timeStep > 1) // Max time step
-            {
-                timeStep = 1;
-            }
-
-            // Update the old vectors depending on the order
-            for (size_t i = 0; i < vectorOfNonLinearSystems.size(); i++)
-            {
-                for (int j = vectorOfNonLinearSystems[i]->order - 1; j > 0; j--)
-                {
-                    vectorOfNonLinearSystems[i]->xPrev[j] = vectorOfNonLinearSystems[i]->xPrev[j - 1];
-                }
-                vectorOfNonLinearSystems[i]->xPrev[0] = vectorOfNonLinearSystems[i]->x;
-            }
-
-            for (size_t i = 0; i < vectorOfNonLinearSystems.size(); i++)
-            {
-                VectorPrinter::printVector(vectorOfNonLinearSystems[i]->x);
-            }
-
-            std::cout << "error = " << error << "\tOutter Itterations = " << itterations << "\n";
+            return true; // Accept the step
+            //std::cout << "error = " << error << "\tOutter Itterations = " << itterations << "\n";
 
         }
 
