@@ -5,17 +5,25 @@
 class ContinuityPressureSystem : public INonLinearSystem {
 public:
 
+    ContinuityPressureSystem() {}
     ContinuityPressureSystem(
+        double _kappa,
+        double _visocisty,
         std::vector<double> _x,
         int _order, 
         int _numberOfCells,
         double _length) :
-        INonLinearSystem(_x, _order, _length, _numberOfCells) {}
+        kappa(_kappa),
+        vis(_visocisty),
+        INonLinearSystem(_x, _order, _length, _numberOfCells) 
+    {
+        const1 = kappa / (3 * vis * dx * dx);
+    }
     ~ContinuityPressureSystem() {}
 
-    double kappa = 9e-9;
-    double vis = 2e-5;
-    double const1 = kappa / (3 * vis * dx * dx);
+    double kappa{};
+    double vis{};
+    double const1{};
 
     INonLinearSystem* uSystem = nullptr;
 

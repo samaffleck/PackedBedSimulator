@@ -1,5 +1,7 @@
 #include <vector>
 
+#include "SystemObjects/PackedBed.h"
+
 #include "PDEs/ContinuityPressureSystem.h"
 #include "PDEs/ContinuityVelocitySystem.h"
 #include "PDEs/DiffusionSystem.h"
@@ -16,35 +18,43 @@
 
 int main(){
 
-    int systemSize = 100;
-    double length = 35; //[m]
-
-    int maxItterations = 100;
-    int order = 1;
+    int maxItterations = 50;
     double tolerance = 1e-6;
 
+    PackedBed bed(35, 0.4, 0.3, 0.001, 2e-5);
+    bed.initialise(100, 298, 0, 1e5);
+
+    BoundaryCondition_Constant outletPressure(1e5);
+    BoundaryCondition_Constant inletPressure(1.1e5);
+    bed.pressureSystem.inletBoundaryCondition = &inletPressure;
+    bed.pressureSystem.outletBoundaryCondition = &outletPressure;
+
+    BoundaryCondition_Constant inletVelocity(0.5);
+    bed.velocitySystem.inletBoundaryCondition = &inletVelocity;
+
+
     // Initial conditions
-    std::vector<double> p0(systemSize);
-    std::vector<double> u0(systemSize);
-    std::vector<double> T0(systemSize);
+    //std::vector<double> p0(systemSize);
+    //std::vector<double> u0(systemSize);
+    //std::vector<double> T0(systemSize);
 
-    for (size_t i = 0; i < p0.size(); i++)
-    {
-        p0[i] = 1e5;
-        u0[i] = 0.0;
-        T0[i] = 100;
-    }
+    //for (size_t i = 0; i < p0.size(); i++)
+    //{
+    //    p0[i] = 1e5;
+    //    u0[i] = 0.5;
+    //    T0[i] = 100;
+    //}
     
-    DiffusionSystem diffusionSystem(T0, order, systemSize, length);
-    BoundaryCondition_Constant inletBoundaryCondition(100);
-    BoundaryCondition_Constant outletBoundaryCondition(200);
-    diffusionSystem.inletBoundaryCondition = &inletBoundaryCondition;
-    diffusionSystem.outletBoundaryCondition = &outletBoundaryCondition;
+    //DiffusionSystem diffusionSystem(T0, order, systemSize, length);
+    //BoundaryCondition_Constant inletBoundaryCondition(100);
+    //BoundaryCondition_Constant outletBoundaryCondition(200);
+    //diffusionSystem.inletBoundaryCondition = &inletBoundaryCondition;
+    //diffusionSystem.outletBoundaryCondition = &outletBoundaryCondition;
 
-    ConvectionEquation convectionEquation(u0, order, systemSize, length);
-    BoundaryCondition_Pulse inletPulse(0,1,0,0.5);
+    //ConvectionEquation convectionEquation(u0, order, systemSize, length);
+    //BoundaryCondition_Pulse inletPulse(0,1,0,0.5);
     //BoundaryCondition_Step inletStep(0,1,0);
-    convectionEquation.inletBoundaryCondition = &inletPulse;
+    //convectionEquation.inletBoundaryCondition = &inletPulse;
 
     //BurgesEquation burgesEquation(u0, order, systemSize, length);
     //BoundaryCondition_Constant inletVelocity(0);
@@ -65,15 +75,14 @@ int main(){
     //velocitySystem.pSystem = &pressureSystem;
     
     // Set up the solver
-    NonLinearSolver solver(maxItterations, tolerance, tolerance, 5, 0.001);
-
-    convectionEquation.time = &solver.currentTime;
+    NonLinearSolver solver(bed, maxItterations, tolerance, tolerance, 200, 0.001);
 
     //solver.addNonLinearSystem(&diffusionSystem);
-    solver.addNonLinearSystem(&convectionEquation);
+    //solver.addNonLinearSystem(&convectionEquation);
     //solver.addNonLinearSystem(&burgesEquation);
-    //solver.addNonLinearSystem(&pressureSystem);
-    //solver.addNonLinearSystem(&velocitySystem);
+    
+    //solver.addNonLinearSystem(&bed.pressureSystem);
+    //solver.addNonLinearSystem(&bed.velocitySystem);
     
     solver.run();
 

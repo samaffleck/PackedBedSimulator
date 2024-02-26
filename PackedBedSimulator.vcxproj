@@ -139,6 +139,7 @@
     <ClCompile Include="scr\PDEs\DiffusionSystem.cpp" />
     <ClCompile Include="scr\PDEs\INonLinearSystem.cpp" />
     <ClCompile Include="scr\Simulator.cpp" />
+    <ClCompile Include="scr\SystemObjects\PackedBed.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scr\BoundaryConditions\BoundaryCondition_Constant.h" />
@@ -155,6 +156,8 @@
     <ClInclude Include="scr\PDEs\INonLinearSystem.h" />
     <ClInclude Include="scr\Solver\NonLinearSolver.h" />
     <ClInclude Include="scr\Solver\OuterItteration.h" />
+    <ClInclude Include="scr\Steps\FlowThrough.h" />
+    <ClInclude Include="scr\SystemObjects\PackedBed.h" />
     <ClInclude Include="scr\VectorFunctions\VectorNorm.h" />
     <ClInclude Include="scr\VectorFunctions\VectorPrinter.h" />
   </ItemGroup>

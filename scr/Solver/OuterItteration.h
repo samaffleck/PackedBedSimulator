@@ -7,9 +7,11 @@
 class OuterItteration {
 public:
     OuterItteration(
+        PackedBed& _bed,
         int _maxItterations,
         double _innerTolerance,
         double _outerTolerance) :
+        bed(_bed),
         maxItterations(_maxItterations),
         innerTolerance(_innerTolerance),
         outerTolerance(_outerTolerance) {}
@@ -20,7 +22,8 @@ public:
     double outerTolerance{};
     int itterations{};
     int maxItterations{};
-    std::vector<INonLinearSystem*> vectorOfNonLinearSystems{};
+    
+    PackedBed& bed;   
 
     bool solve(double& timeStep, double& currentTime) {
 
@@ -28,41 +31,62 @@ public:
         error = outerTolerance * 100;
 
         while (error > outerTolerance && itterations < maxItterations) {
-
-            for (size_t i = 0; i < vectorOfNonLinearSystems.size(); i++)
-            {
-                vectorOfNonLinearSystems[i]->innerItteration(maxItterations, innerTolerance, timeStep);
-            }
-
-            // Update the overall error. This must only be called after all function inner itterations are complete
-            error = 0;
-            for (size_t i = 0; i < vectorOfNonLinearSystems.size(); i++)
-            {
-                error += vectorOfNonLinearSystems[i]->evaluateError(timeStep);
-            }
-            error = error / (vectorOfNonLinearSystems.size() * vectorOfNonLinearSystems[0]->x.size());
-
+            innerItterations(timeStep);
+            updateSystemError(timeStep);
             itterations++;
-
         }
 
-        if (itterations == maxItterations)
-        {
-            /* Halve the time step and don't update x */
-
-            //timeStep *= 0.5;
-
-            return false; // Not a successful step
-
+        if (itterations == maxItterations or std::isfinite(error) == false) {
+            rejectStep(timeStep);
+            return false;
         }
         else {
-            /* Accept the step, increase the time step and update x*/
-
-            return true; // Accept the step
-            //std::cout << "error = " << error << "\tOutter Itterations = " << itterations << "\n";
-
+            acceptStep(timeStep, currentTime);
+            return true;
         }
 
+    }
+
+    void acceptStep(double& timeStep, double& currentTime) {
+
+        currentTime += timeStep;
+        timeStep *= 2;
+        if (timeStep > 1) // Max time step
+        {
+            timeStep = 1;
+        }
+
+        // Update the old vectors depending on the order
+        for (int j = bed.order - 1; j > 0; j--)
+        {
+            bed.pressureSystem.xPrev[j] = bed.pressureSystem.xPrev[j - 1];
+            bed.velocitySystem.xPrev[j] = bed.velocitySystem.xPrev[j - 1];
+        }
+        bed.pressureSystem.xPrev[0] = bed.pressureSystem.x;
+        bed.velocitySystem.xPrev[0] = bed.velocitySystem.x;
+        
+    }
+
+    void rejectStep(double& timeStep) {
+        bed.pressureSystem.x = bed.pressureSystem.xPrev[0];
+        bed.velocitySystem.x = bed.velocitySystem.xPrev[0];
+        timeStep *= 0.5;
+    }
+
+    void updateSystemError(double& timeStep) {
+        // Update the overall error. This must only be called after all function inner itterations are complete
+        error = 0;
+        
+        error += bed.pressureSystem.evaluateError(timeStep);
+        error += bed.velocitySystem.evaluateError(timeStep);
+
+        error = error / (2 * bed.numberOfCells); // 2 is the number of equations (this may change)
+
+    }
+
+    void innerItterations(double& timeStep) {
+        bed.pressureSystem.innerItteration(maxItterations, innerTolerance, timeStep);
+        bed.velocitySystem.innerItteration(maxItterations, innerTolerance, timeStep);
     }
 
 };

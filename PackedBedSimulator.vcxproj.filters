@@ -39,6 +39,9 @@
     <ClCompile Include="scr\DataLogger\DataLogger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="scr\SystemObjects\PackedBed.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scr\VectorFunctions\VectorNorm.h">
@@ -87,6 +90,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="scr\BoundaryConditions\BoundaryCondition_Pulse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="scr\SystemObjects\PackedBed.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="scr\Steps\FlowThrough.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

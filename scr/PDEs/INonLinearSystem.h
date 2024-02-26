@@ -9,6 +9,8 @@
 
 class INonLinearSystem {
 public:
+
+    INonLinearSystem() {}
     INonLinearSystem(
         std::vector<double> _x,
         int _order,
