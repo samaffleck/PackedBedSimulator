@@ -43,9 +43,8 @@ public:
             successfulStep = false;
 
             // Update boundary values
-            bed.pressureSystem.inletBoundaryCondition->update(currentTime);
-            bed.velocitySystem.inletBoundaryCondition->update(currentTime);
-
+            bed.pressureSystem.step->updateBoundaryConditions(currentTime);
+            
             while (successfulStep == false and timeStep > minimumTimeStep)
             {
                 successfulStep = outerItteration.solve(timeStep, currentTime);

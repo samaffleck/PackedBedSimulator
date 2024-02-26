@@ -48,5 +48,6 @@ public:
 	ContinuityVelocitySystem velocitySystem;
 
 	void initialise(const int& systemSize, const double& initialTemperature, const double& initialVelocity, const double& initialPressure);
+	void selectStep(IStep* _step);
 
 };

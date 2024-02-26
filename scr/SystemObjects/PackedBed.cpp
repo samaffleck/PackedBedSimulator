@@ -24,3 +24,9 @@ void PackedBed::initialise(const int& _numberOfCells, const double& initialTempe
 	velocitySystem.pSystem = &pressureSystem;
 
 }
+
+
+void PackedBed::selectStep(IStep* step) {
+	pressureSystem.step = step;
+	velocitySystem.step = step;
+}

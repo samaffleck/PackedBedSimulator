@@ -5,7 +5,7 @@
 
 #include "../VectorFunctions/VectorNorm.h"
 #include "../BoundaryConditions/IBoundaryCondition.h"
-
+#include "../Steps/IStep.h"
 
 class INonLinearSystem {
 public:
@@ -44,8 +44,10 @@ public:
     std::vector<std::vector<double>> xPrev;    // Vectors at previous time steps depending on the order...
     std::vector<double> rhs{};
 
-    IBoundaryCondition* inletBoundaryCondition = nullptr;
-    IBoundaryCondition* outletBoundaryCondition = nullptr;
+    //IBoundaryCondition* inletBoundaryCondition = nullptr;
+    //IBoundaryCondition* outletBoundaryCondition = nullptr;
+
+    IStep* step = nullptr;
 
     virtual void updateRHS(const double& dt) = 0;
 

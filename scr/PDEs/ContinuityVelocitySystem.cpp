@@ -9,15 +9,17 @@ void ContinuityVelocitySystem::updateRHS(const double& dt) {
     */
     
     // Pressurise Boundary Condition
-    rhs[0] = (-kappa / (dx * vis)) * (0.5 * (pSystem->x[0] + pSystem->x[1]) - 
-        pSystem->inletBoundaryCondition->boundaryValue);
-        
+    //rhs[0] = (-kappa / (dx * vis)) * (0.5 * (pSystem->x[0] + pSystem->x[1]) - 
+    //    pSystem->inletBoundaryCondition->boundaryValue);
+      
+    rhs[0] = step->inletVelocityRHS(kappa, dx, vis, pSystem->x);
     
     for (size_t i = 1; i < x.size() - 1; i++)
     {
         rhs[i] = (-kappa / (vis * 2 * dx)) * (pSystem->x[i + 1] - pSystem->x[i - 1]);
     }
 
+    rhs[rhs.size() - 1] = step->outletVelocityRHS(kappa, dx, vis, pSystem->x, (rhs.size() - 1));
 
     // Feed Boundary Condition
     /*
@@ -26,6 +28,7 @@ void ContinuityVelocitySystem::updateRHS(const double& dt) {
     */
     
     // Pressurise Boundary Condition
-    rhs[rhs.size() - 1] = (-kappa / (2 * dx * vis)) * (pSystem->x[rhs.size() - 1] - pSystem->x[rhs.size() - 2]);
+    //rhs[rhs.size() - 1] = (-kappa / (2 * dx * vis)) * (pSystem->x[rhs.size() - 1] - pSystem->x[rhs.size() - 2]);
+
 
 }

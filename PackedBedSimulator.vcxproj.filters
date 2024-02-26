@@ -30,16 +30,16 @@
     <ClCompile Include="scr\PDEs\INonLinearSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="scr\PDEs\BurgesEquation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="scr\PDEs\ConvectionEquation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="scr\DataLogger\DataLogger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="scr\SystemObjects\PackedBed.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scr\Steps\FlowThrough.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scr\Steps\Pressurize.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -77,12 +77,6 @@
     <ClInclude Include="scr\BoundaryConditions\BoundaryCondition_Flux.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="scr\PDEs\BurgesEquation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="scr\PDEs\ConvectionEquation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="scr\DataLogger\DataLogger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -96,6 +90,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="scr\Steps\FlowThrough.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="scr\Steps\IStep.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="scr\Steps\Pressurize.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
