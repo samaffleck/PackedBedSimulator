@@ -2,23 +2,25 @@
 
 #include "INonLinearSystem.h"
 
-
-class ContinuityVelocitySystem : public INonLinearSystem {
+class ContinuityDensitySystem : public INonLinearSystem {
 public:
 
-    ContinuityVelocitySystem() {}
-    ContinuityVelocitySystem(
+    ContinuityDensitySystem() {}
+    ContinuityDensitySystem(
         double _kappa,
-        double _viscosity,
+        double _visocisty,
+        double _et,
         std::vector<double> _x,
-        int _order,
+        int _order, 
         int _numberOfCells,
         double _length) :
         kappa(_kappa),
-        vis(_viscosity),
-        INonLinearSystem(_x, _order, _length, _numberOfCells) {}
-    ~ContinuityVelocitySystem() {}
-    ContinuityVelocitySystem& operator=(const ContinuityVelocitySystem& other)
+        vis(_visocisty),
+        et(_et),
+        INonLinearSystem(_x, _order, _length, _numberOfCells) 
+    {}
+    ~ContinuityDensitySystem() {}
+    ContinuityDensitySystem& operator=(const ContinuityDensitySystem& other)
     {
         if (this != &other) {
             length = other.length;
@@ -35,15 +37,16 @@ public:
 
             kappa = other.kappa;
             vis = other.vis;
+            et = other.et;
         }
         return *this;
     }
 
-
     double kappa{};
     double vis{};
+    double et{};        // Total voidage
 
-    INonLinearSystem* cSystem = nullptr;
+    INonLinearSystem* uSystem = nullptr;
     INonLinearSystem* tSystem = nullptr;
 
     void updateRHS(const double& dt) override;

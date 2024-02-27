@@ -132,9 +132,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="scr\DataLogger\DataLogger.cpp" />
-    <ClCompile Include="scr\PDEs\ContinuityPressureSystem.cpp" />
+    <ClCompile Include="scr\PDEs\ContinuityDensitySystem.cpp" />
     <ClCompile Include="scr\PDEs\ContinuityVelocitySystem.cpp" />
-    <ClCompile Include="scr\PDEs\DiffusionSystem.cpp" />
+    <ClCompile Include="scr\PDEs\AdvectionDiffusionSystem.cpp" />
     <ClCompile Include="scr\PDEs\INonLinearSystem.cpp" />
     <ClCompile Include="scr\Simulator.cpp" />
     <ClCompile Include="scr\Steps\FlowThrough.cpp" />
@@ -145,12 +145,13 @@
     <ClInclude Include="scr\BoundaryConditions\BoundaryCondition_Constant.h" />
     <ClInclude Include="scr\BoundaryConditions\BoundaryCondition_Flux.h" />
     <ClInclude Include="scr\BoundaryConditions\BoundaryCondition_Pulse.h" />
+    <ClInclude Include="scr\BoundaryConditions\BoundaryCondition_Ramp.h" />
     <ClInclude Include="scr\BoundaryConditions\BoundaryCondition_Step.h" />
     <ClInclude Include="scr\BoundaryConditions\IBoundaryCondition.h" />
     <ClInclude Include="scr\DataLogger\DataLogger.h" />
-    <ClInclude Include="scr\PDEs\ContinuityPressureSystem.h" />
+    <ClInclude Include="scr\PDEs\ContinuityDensitySystem.h" />
     <ClInclude Include="scr\PDEs\ContinuityVelocitySystem.h" />
-    <ClInclude Include="scr\PDEs\DiffusionSystem.h" />
+    <ClInclude Include="scr\PDEs\AdvectionDiffusionSystem.h" />
     <ClInclude Include="scr\PDEs\INonLinearSystem.h" />
     <ClInclude Include="scr\Solver\NonLinearSolver.h" />
     <ClInclude Include="scr\Solver\OuterItteration.h" />

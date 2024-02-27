@@ -3,22 +3,18 @@
 #include "INonLinearSystem.h"
 
 
-class ContinuityVelocitySystem : public INonLinearSystem {
+class AdvectionDiffusionSystem : public INonLinearSystem {
 public:
 
-    ContinuityVelocitySystem() {}
-    ContinuityVelocitySystem(
-        double _kappa,
-        double _viscosity,
+    AdvectionDiffusionSystem() {}
+    AdvectionDiffusionSystem(
         std::vector<double> _x,
         int _order,
         int _numberOfCells,
         double _length) :
-        kappa(_kappa),
-        vis(_viscosity),
         INonLinearSystem(_x, _order, _length, _numberOfCells) {}
-    ~ContinuityVelocitySystem() {}
-    ContinuityVelocitySystem& operator=(const ContinuityVelocitySystem& other)
+    ~AdvectionDiffusionSystem() {}
+    AdvectionDiffusionSystem& operator=(const AdvectionDiffusionSystem& other)
     {
         if (this != &other) {
             length = other.length;
@@ -33,18 +29,19 @@ public:
             rhs = other.rhs;
             step = other.step;
 
-            kappa = other.kappa;
-            vis = other.vis;
+            dxSquared = other.dxSquared;
+            D = other.D;
+            D_dxSquaredInv = other.D_dxSquaredInv;
+            qSource = other.qSource;
         }
         return *this;
     }
 
 
-    double kappa{};
-    double vis{};
-
-    INonLinearSystem* cSystem = nullptr;
-    INonLinearSystem* tSystem = nullptr;
+    double dxSquared = dx * dx;
+    double D = 0.5;
+    double D_dxSquaredInv = D / dxSquared;
+    double qSource = 1e6;
 
     void updateRHS(const double& dt) override;
 

@@ -6,27 +6,31 @@ void PackedBed::initialise(const int& _numberOfCells, const double& initialTempe
 	numberOfCells = _numberOfCells;
 	dx = length / _numberOfCells;
 
-	P.resize(_numberOfCells);
+	C.resize(_numberOfCells);
 	U.resize(_numberOfCells);
 	T.resize(_numberOfCells);
 
 	for (int i = 0; i < _numberOfCells; i++)
 	{
-		P[i] = initialPressure;
+		C[i] = initialPressure / (R * initialTemperature);
 		U[i] = initialVelocity;
 		T[i] = initialTemperature;
 	}
 
-	pressureSystem = ContinuityPressureSystem(kappa, viscosity, P, 1, _numberOfCells, length);
+	densitySystem = ContinuityDensitySystem(kappa, viscosity, et, C, 1, _numberOfCells, length);
 	velocitySystem = ContinuityVelocitySystem(kappa, viscosity, U, 1, _numberOfCells, length);
+	temperatureSystem = AdvectionDiffusionSystem(T,1, _numberOfCells, length);
 
-	pressureSystem.uSystem = &velocitySystem;
-	velocitySystem.pSystem = &pressureSystem;
+	densitySystem.uSystem = &velocitySystem;
+	densitySystem.tSystem = &temperatureSystem;
+	velocitySystem.cSystem = &densitySystem;
+	velocitySystem.tSystem = &temperatureSystem;
 
 }
 
 
 void PackedBed::selectStep(IStep* step) {
-	pressureSystem.step = step;
+	densitySystem.step = step;
 	velocitySystem.step = step;
+	temperatureSystem.step = step;
 }

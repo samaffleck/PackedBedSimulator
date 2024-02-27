@@ -4,7 +4,8 @@ enum class BoundaryConditionType {
 	CONSTANT,
 	FLUX,
 	STEP,
-	PULSE
+	PULSE,
+	RAMP
 };
 
 class IBoundaryCondition {

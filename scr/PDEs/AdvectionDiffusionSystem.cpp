@@ -1,7 +1,7 @@
-#include "DiffusionSystem.h"
+#include "AdvectionDiffusionSystem.h"
 
 
-void DiffusionSystem::updateRHS(const double& dt) {
+void AdvectionDiffusionSystem::updateRHS(const double& dt) {
     /*
     rhs[0] = (
         6 * dxSquared * xPrev[0][0] +
@@ -42,6 +42,9 @@ void DiffusionSystem::updateRHS(const double& dt) {
         ((1 / dt) + 3 * D_dxSquaredInv);
     */
 
+    
+    
+    /*->>
     for (size_t i = 1; i < x.size() - 1; i++)
     {
         rhs[i] = (x[i + 1] * D_dxSquaredInv + 
@@ -50,7 +53,10 @@ void DiffusionSystem::updateRHS(const double& dt) {
             xPrev[0][i] * (1 / dt)) / 
             ((1 / dt) + 2 * D_dxSquaredInv);
     }
-
+    */
+    
+    
+    
     /*
     int j = rhs.size() - 1;
     rhs[j] = (outletBoundaryCondition->boundaryValue * 2 * D_dxSquaredInv +

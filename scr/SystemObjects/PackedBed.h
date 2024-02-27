@@ -2,9 +2,9 @@
 
 #include <vector>
 
-#include "../PDEs/ContinuityPressureSystem.h"
+#include "../PDEs/ContinuityDensitySystem.h"
 #include "../PDEs/ContinuityVelocitySystem.h"
-#include "../PDEs/DiffusionSystem.h"
+#include "../PDEs/AdvectionDiffusionSystem.h"
 
 
 class PackedBed {
@@ -35,17 +35,19 @@ public:
 	double dp;			// Particle diameter
 	double kappa;		// Pereability
 	double viscosity; 
-	double order = 1;
+	int order = 1;
 	double dx{};
+	const double R = 8.314;
 
 	// Initial conditions
-	std::vector<double> P{};
-	std::vector<double> U{};
-	std::vector<double> T{};
+	std::vector<double> C{};	// Molar density [mol/m3]
+	std::vector<double> U{};	// Velocity [m/s]
+	std::vector<double> T{};	// Temperature [K]
 
 	// Solver systems
-	ContinuityPressureSystem pressureSystem;
+	ContinuityDensitySystem densitySystem;
 	ContinuityVelocitySystem velocitySystem;
+	AdvectionDiffusionSystem temperatureSystem;
 
 	void initialise(const int& systemSize, const double& initialTemperature, const double& initialVelocity, const double& initialPressure);
 	void selectStep(IStep* _step);

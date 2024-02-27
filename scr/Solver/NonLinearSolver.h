@@ -25,7 +25,7 @@ public:
     double totalTime;
     double initialTimeStep;
     double timeStep{};
-    double minimumTimeStep = 0.000001;
+    double minimumTimeStep = 0.00000001;
     bool successfulStep = false;
 
     PackedBed& bed;
@@ -43,7 +43,7 @@ public:
             successfulStep = false;
 
             // Update boundary values
-            bed.pressureSystem.step->updateBoundaryConditions(currentTime);
+            bed.densitySystem.step->updateBoundaryConditions(currentTime);
             
             while (successfulStep == false and timeStep > minimumTimeStep)
             {
@@ -55,7 +55,7 @@ public:
                 // Log successful step
                 std::cout << "time: " << currentTime << "\ttime step: " << timeStep << "\n";
 
-                dataLogger.log(0, currentTime, bed.pressureSystem.x);
+                dataLogger.log(0, currentTime, bed.densitySystem.x);
                 dataLogger.log(1, currentTime, bed.velocitySystem.x);
 
             }

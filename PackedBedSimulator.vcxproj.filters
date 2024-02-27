@@ -18,13 +18,13 @@
     <ClCompile Include="scr\Simulator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="scr\PDEs\ContinuityPressureSystem.cpp">
+    <ClCompile Include="scr\PDEs\ContinuityDensitySystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="scr\PDEs\ContinuityVelocitySystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="scr\PDEs\DiffusionSystem.cpp">
+    <ClCompile Include="scr\PDEs\AdvectionDiffusionSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="scr\PDEs\INonLinearSystem.cpp">
@@ -53,10 +53,10 @@
     <ClInclude Include="scr\PDEs\INonLinearSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="scr\PDEs\DiffusionSystem.h">
+    <ClInclude Include="scr\PDEs\AdvectionDiffusionSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="scr\PDEs\ContinuityPressureSystem.h">
+    <ClInclude Include="scr\PDEs\ContinuityDensitySystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="scr\PDEs\ContinuityVelocitySystem.h">
@@ -96,6 +96,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="scr\Steps\Pressurize.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="scr\BoundaryConditions\BoundaryCondition_Ramp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

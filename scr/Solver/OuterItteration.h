@@ -59,16 +59,16 @@ public:
         // Update the old vectors depending on the order
         for (int j = bed.order - 1; j > 0; j--)
         {
-            bed.pressureSystem.xPrev[j] = bed.pressureSystem.xPrev[j - 1];
+            bed.densitySystem.xPrev[j] = bed.densitySystem.xPrev[j - 1];
             bed.velocitySystem.xPrev[j] = bed.velocitySystem.xPrev[j - 1];
         }
-        bed.pressureSystem.xPrev[0] = bed.pressureSystem.x;
+        bed.densitySystem.xPrev[0] = bed.densitySystem.x;
         bed.velocitySystem.xPrev[0] = bed.velocitySystem.x;
         
     }
 
     void rejectStep(double& timeStep) {
-        bed.pressureSystem.x = bed.pressureSystem.xPrev[0];
+        bed.densitySystem.x = bed.densitySystem.xPrev[0];
         bed.velocitySystem.x = bed.velocitySystem.xPrev[0];
         timeStep *= 0.5;
     }
@@ -77,7 +77,7 @@ public:
         // Update the overall error. This must only be called after all function inner itterations are complete
         error = 0;
         
-        error += bed.pressureSystem.evaluateError(timeStep);
+        error += bed.densitySystem.evaluateError(timeStep);
         error += bed.velocitySystem.evaluateError(timeStep);
 
         error = error / (2 * bed.numberOfCells); // 2 is the number of equations (this may change)
@@ -85,7 +85,7 @@ public:
     }
 
     void innerItterations(double& timeStep) {
-        bed.pressureSystem.innerItteration(maxItterations, innerTolerance, timeStep);
+        bed.densitySystem.innerItteration(maxItterations, innerTolerance, timeStep);
         bed.velocitySystem.innerItteration(maxItterations, innerTolerance, timeStep);
     }
 

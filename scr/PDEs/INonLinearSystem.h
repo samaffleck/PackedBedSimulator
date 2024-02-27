@@ -31,6 +31,7 @@ public:
     }
     ~INonLinearSystem() {}
 
+
     int order{};
     int itterations{};
     double error{};
@@ -38,14 +39,12 @@ public:
     double length{};
     int numberOfcells{};
     double dx{};
+    const double R = 8.314;
 
     std::vector<double> x;                     // Vector of scalar elements
     std::vector<double> e;                     // Function result
     std::vector<std::vector<double>> xPrev;    // Vectors at previous time steps depending on the order...
     std::vector<double> rhs{};
-
-    //IBoundaryCondition* inletBoundaryCondition = nullptr;
-    //IBoundaryCondition* outletBoundaryCondition = nullptr;
 
     IStep* step = nullptr;
 
