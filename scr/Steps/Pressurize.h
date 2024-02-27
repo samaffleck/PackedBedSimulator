@@ -6,18 +6,23 @@
 
 class Pressurize : public IStep {
 public:
-	Pressurize(IBoundaryCondition* _inletPressure)
-	{
-		inletPressure = _inletPressure;
-	}
+	Pressurize(IBoundaryCondition* _inletPressure,
+		IBoundaryCondition* _inletTemperature) : 
+		inletPressure(_inletPressure),
+		inletTemperature(_inletTemperature){}
 	~Pressurize() {}
 
 	IBoundaryCondition* inletPressure = nullptr;
+	IBoundaryCondition* inletTemperature = nullptr;
 	
-	double inletPressureRHS(const std::vector<std::vector<double>>& xPrev, const double& dt, const double& dx, const std::vector<double>& x, const std::vector<double>& u_x, const std::vector<double>& t_x, const double& vis, const double& kappa) override;
-	double outletPressureRHS() override;
-	double inletVelocityRHS(const double& kappa, const double& dx, const double& vis, const std::vector<double>& c_x, const std::vector<double>& t_x) override;
-	double outletVelocityRHS(const double& kappa, const double& dx, const double& vis, const std::vector<double>& c_x, const std::vector<double>& t_x, const int& lastIndex) override;
+	double inletDensityRHS(PackedBed* bed, const std::vector<double>& x, const std::vector<std::vector<double>>& xPrev, const double& dt) override;
+	double outletDensityRHS() override;
+	
+	double inletVelocityRHS(PackedBed* bed) override;
+	double outletVelocityRHS(PackedBed* bed) override;
+
+	double inletTemperatureRHS(PackedBed* bed, const std::vector<double>& x, const std::vector<std::vector<double>>& xPrev, const double& dt) override;
+	double outletTemperatureRHS(PackedBed* bed, const std::vector<double>& x, const std::vector<std::vector<double>>& xPrev, const double& dt) override;
 
 	void updateBoundaryConditions(const double& currentTime) override;
 

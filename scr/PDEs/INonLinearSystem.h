@@ -6,28 +6,27 @@
 #include "../VectorFunctions/VectorNorm.h"
 #include "../BoundaryConditions/IBoundaryCondition.h"
 #include "../Steps/IStep.h"
+#include "../SystemObjects/PackedBed.h"
+
+class PackedBed;
 
 class INonLinearSystem {
 public:
 
-    INonLinearSystem() {}
     INonLinearSystem(
-        std::vector<double> _x,
-        int _order,
-        double _length,
-        int _numberOfcells) :
-        length(_length),
-        numberOfcells(_numberOfcells),
+        PackedBed* _bed,
+        std::vector<double>& _x,
+        int _order) :
+        bed(_bed),
         x(_x),
         order(_order)
     {
-        dx = length / _numberOfcells;
-        e.resize(x.size());
+        e.resize(bed->numberOfCells);
         for (int i = 0; i < order; i++)
         {
             xPrev.push_back(_x);            // Copy initial vector to the previous vector for all orders.
         }
-        rhs.resize(x.size());
+        rhs.resize(bed->numberOfCells);
     }
     ~INonLinearSystem() {}
 
@@ -36,17 +35,14 @@ public:
     int itterations{};
     double error{};
 
-    double length{};
-    int numberOfcells{};
-    double dx{};
     const double R = 8.314;
 
-    std::vector<double> x;                     // Vector of scalar elements
+    std::vector<double>& x;                    // Vector of scalar elements
     std::vector<double> e;                     // Function result
     std::vector<std::vector<double>> xPrev;    // Vectors at previous time steps depending on the order...
     std::vector<double> rhs{};
 
-    IStep* step = nullptr;
+    PackedBed* bed = nullptr;
 
     virtual void updateRHS(const double& dt) = 0;
 

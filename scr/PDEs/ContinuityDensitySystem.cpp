@@ -3,11 +3,12 @@
 
 void ContinuityDensitySystem::updateRHS(const double& dt) {
 
-    rhs[0] = step->inletPressureRHS(xPrev, dt, dx, x, uSystem->x, tSystem->x, vis, kappa);
+    rhs[0] = bed->step->inletDensityRHS(bed, x, xPrev, dt);
 
     for (size_t i = 1; i < x.size(); i++)
     {
-        rhs[i] = xPrev[0][i] - (dt / (et * dx)) * ((x[i] * uSystem->x[i]) - (x[i - 1] * uSystem->x[i - 1]));
+        rhs[i] = xPrev[0][i] - (dt / (bed->et * bed->dx)) * 
+            ((x[i] * bed->U[i]) - (x[i - 1] * bed->U[i - 1]));
     }
 
 }

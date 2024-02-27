@@ -24,17 +24,20 @@ int main(){
     
     BoundaryCondition_Constant outletPressure(1e5);
     BoundaryCondition_Constant inletPressure(1.1e5);
-    BoundaryCondition_Constant inletVelocity(0.1);
+
+    BoundaryCondition_Constant inletTemperature(328);
+    
+    BoundaryCondition_Constant inletVelocity(0.01);
 
     BoundaryCondition_Ramp inletPressureRamp(1e5, 1.5e5, 50);
 
-    FlowThrough flowStep(&inletVelocity, &outletPressure);
-    Pressurize pressurizeStep(&inletPressureRamp);
-    bed.selectStep(&pressurizeStep);
-    //bed.selectStep(&flowStep);
+    FlowThrough flowStep(&inletVelocity, &outletPressure, &inletTemperature);
+    Pressurize pressurizeStep(&inletPressureRamp, &inletTemperature);
+    //bed.selectStep(&pressurizeStep);
+    bed.selectStep(&flowStep);
 
     // Set up the solver
-    NonLinearSolver solver(bed, maxItterations, innerTolerance, outerTolerance, 100, 0.001);
+    NonLinearSolver solver(bed, maxItterations, innerTolerance, outerTolerance, 1000, 0.001);
     solver.run();
 
     return 0;

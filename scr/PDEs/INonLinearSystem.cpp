@@ -2,14 +2,11 @@
 
 
 void INonLinearSystem::gaussSeidel(const double& dt) {
-
     updateRHS(dt);
     x = rhs;
-
 }
 
 double INonLinearSystem::evaluateError(const double& dt) {
-
     error = 0;
     updateRHS(dt);
     for (size_t i = 0; i < e.size(); i++)
@@ -18,7 +15,6 @@ double INonLinearSystem::evaluateError(const double& dt) {
     }
     error = VectorNorm::L2Norm(e);
     return error;
-
 }
 
 
@@ -31,7 +27,4 @@ void INonLinearSystem::innerItteration(const int& maxItterations, const double& 
         error = evaluateError(timeStep);
         itterations++;
     }
-
-    //std::cout << "error = " << error << "\tInner Itterations = " << itterations << "\n";
-
 }

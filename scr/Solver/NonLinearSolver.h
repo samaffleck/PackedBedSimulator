@@ -1,9 +1,12 @@
 #pragma once
 
-#include "OuterItteration.h"
 #include "../PDEs/INonLinearSystem.h"
 #include "../DataLogger/DataLogger.h"
 #include "../SystemObjects/PackedBed.h"
+
+#include "../PDEs/AdvectionDiffusionSystem.h"
+#include "../PDEs/ContinuityDensitySystem.h"
+#include "../PDEs/ContinuityVelocitySystem.h"
 
 
 class NonLinearSolver {
@@ -16,10 +19,16 @@ public:
         double _totalTime,
         double _initialTimeStep) :
         bed(_bed),
-        outerItteration(_bed, _maxItterations, _innerTolerance, _outerTolerance),
+        outerTolerance(_outerTolerance),
+        innerTolerance(_innerTolerance),
+        maxItterations(_maxItterations),
         totalTime(_totalTime),
         initialTimeStep(_initialTimeStep) {}
-    ~NonLinearSolver() {}
+    ~NonLinearSolver() {
+        //delete densitySystem;
+        //delete velocitySystem;
+        //delete temperatureSystem;
+    }
 
     double currentTime{};
     double totalTime;
@@ -28,42 +37,24 @@ public:
     double minimumTimeStep = 0.00000001;
     bool successfulStep = false;
 
+    int outerItterations{};
+    int maxItterations{};
+    double outerError{};
+    double outerTolerance{};
+    double innerTolerance{};
+
     PackedBed& bed;
-    OuterItteration outerItteration;
     DataLogger dataLogger;
 
-    void run() {
-        // Initialisation
-        currentTime = 0;
-        timeStep = initialTimeStep;
-        dataLogger.open(2, bed.numberOfCells, bed.dx);
+    ContinuityDensitySystem* densitySystem = nullptr;
+    ContinuityVelocitySystem* velocitySystem = nullptr;
+    AdvectionDiffusionSystem* temperatureSystem = nullptr;
 
-        while (currentTime < totalTime)
-        {
-            successfulStep = false;
-
-            // Update boundary values
-            bed.densitySystem.step->updateBoundaryConditions(currentTime);
-            
-            while (successfulStep == false and timeStep > minimumTimeStep)
-            {
-                successfulStep = outerItteration.solve(timeStep, currentTime);
-            }
-
-            if (successfulStep)
-            {
-                // Log successful step
-                std::cout << "time: " << currentTime << "\ttime step: " << timeStep << "\n";
-
-                dataLogger.log(0, currentTime, bed.densitySystem.x);
-                dataLogger.log(1, currentTime, bed.velocitySystem.x);
-
-            }
-            
-        }
-
-        dataLogger.close();
-
-    }
+    void run();
+    bool outerItteration();
+    void acceptStep();
+    void rejectStep();
+    void updateSystemError();
+    void innerItterations();
 
 };

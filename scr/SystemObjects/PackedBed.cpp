@@ -17,20 +17,9 @@ void PackedBed::initialise(const int& _numberOfCells, const double& initialTempe
 		T[i] = initialTemperature;
 	}
 
-	densitySystem = ContinuityDensitySystem(kappa, viscosity, et, C, 1, _numberOfCells, length);
-	velocitySystem = ContinuityVelocitySystem(kappa, viscosity, U, 1, _numberOfCells, length);
-	temperatureSystem = AdvectionDiffusionSystem(T,1, _numberOfCells, length);
-
-	densitySystem.uSystem = &velocitySystem;
-	densitySystem.tSystem = &temperatureSystem;
-	velocitySystem.cSystem = &densitySystem;
-	velocitySystem.tSystem = &temperatureSystem;
-
 }
 
 
-void PackedBed::selectStep(IStep* step) {
-	densitySystem.step = step;
-	velocitySystem.step = step;
-	temperatureSystem.step = step;
+void PackedBed::selectStep(IStep* _step) {
+	step = _step;
 }

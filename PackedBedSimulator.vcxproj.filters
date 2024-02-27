@@ -42,6 +42,9 @@
     <ClCompile Include="scr\Steps\Pressurize.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="scr\Solver\NonLinearSolver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scr\VectorFunctions\VectorNorm.h">
@@ -60,9 +63,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="scr\PDEs\ContinuityVelocitySystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="scr\Solver\OuterItteration.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="scr\Solver\NonLinearSolver.h">

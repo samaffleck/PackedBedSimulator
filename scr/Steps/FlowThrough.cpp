@@ -1,25 +1,39 @@
 #include "FlowThrough.h"
+#include "../SystemObjects/PackedBed.h"
 #include <vector>
 
-double FlowThrough::inletPressureRHS(const std::vector<std::vector<double>>& xPrev, const double& dt, const double& dx, const std::vector<double>& x, const std::vector<double>& u_x, const std::vector<double>& t_x, const double& vis, const double& kappa) {
+double FlowThrough::inletDensityRHS(PackedBed* bed, const std::vector<double>& x, const std::vector<std::vector<double>>& xPrev, const double& dt) {
     return (xPrev[0][0] -
-        (2 * dt / (dx)) *
-        ((x[0] * u_x[0]) - (inletVelocity->boundaryValue * x[0] + dx * vis * inletVelocity->boundaryValue * inletVelocity->boundaryValue / (2 * kappa * R * t_x[0]))));
+        (2 * dt / (bed->dx)) *
+        ((x[0] * bed->U[0]) - (inletVelocity->boundaryValue * x[0] + bed->dx * bed->viscosity * inletVelocity->boundaryValue * inletVelocity->boundaryValue / (2 * bed->kappa * R * bed->T[0]))));
 }
 
-double FlowThrough::outletPressureRHS() {
+double FlowThrough::outletDensityRHS() {
     // None required
     return 0;
 }
 
-double FlowThrough::inletVelocityRHS(const double& kappa, const double& dx, const double& vis, const std::vector<double>& c_x, const std::vector<double>& t_x) {
+double FlowThrough::inletVelocityRHS(PackedBed* bed) {
     return (inletVelocity->boundaryValue / 2 -
-        (kappa * R / (2 * dx * vis)) * (c_x[1] * t_x[1] - c_x[0] * t_x[0]));
+        (bed->kappa * R / (2 * bed->dx * bed->viscosity)) * (bed->C[1] * bed->T[1] - bed->C[0] * bed->T[0]));
 }
 
-double FlowThrough::outletVelocityRHS(const double& kappa, const double& dx, const double& vis, const std::vector<double>& c_x, const std::vector<double>& t_x, const int& lastIndex) {
-    return ((-kappa / (dx * vis)) * (outletPressure->boundaryValue -
-        0.5 * R * (c_x[lastIndex] * t_x[lastIndex] + c_x[lastIndex - 1] * t_x[lastIndex - 1])));
+double FlowThrough::outletVelocityRHS(PackedBed* bed) {
+    return ((-bed->kappa / (bed->dx * bed->viscosity)) * (outletPressure->boundaryValue -
+        0.5 * R * (bed->C[bed->numberOfCells - 1] * bed->T[bed->numberOfCells - 1] + bed->C[bed->numberOfCells - 2] * bed->T[bed->numberOfCells - 2])));
+}
+
+double FlowThrough::inletTemperatureRHS(PackedBed* bed, const std::vector<double>& x, const std::vector<std::vector<double>>& xPrev, const double& dt) {
+    return (xPrev[0][0] -
+        (2 * dt / bed->dx) * bed->U[0] * (x[0] - inletTemperature->boundaryValue) +
+        (dt / (bed->dx * bed->dx)) * bed->lambda * (x[1] - 3 * x[0] + 2 * inletTemperature->boundaryValue));
+}
+
+double FlowThrough::outletTemperatureRHS(PackedBed* bed, const std::vector<double>& x, const std::vector<std::vector<double>>& xPrev, const double& dt) {
+    int i = bed->numberOfCells - 1;
+    return (xPrev[0][i] -
+        (dt / bed->dx) * bed->U[i] * (x[i] - x[i - 1]) +
+        (dt / (bed->dx * bed->dx)) * bed->lambda * (x[i - 1] - x[i]));
 }
 
 void FlowThrough::updateBoundaryConditions(const double& currentTime) {
