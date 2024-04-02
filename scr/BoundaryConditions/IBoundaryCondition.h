@@ -13,7 +13,7 @@ public:
 	IBoundaryCondition(BoundaryConditionType _type, double _boundaryValue) : 
 		type(_type),
 		boundaryValue(_boundaryValue){}
-	~IBoundaryCondition() {}
+	virtual ~IBoundaryCondition() = default;
 
 	BoundaryConditionType type;
 	double boundaryValue;

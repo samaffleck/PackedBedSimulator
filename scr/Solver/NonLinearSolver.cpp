@@ -6,12 +6,16 @@ void NonLinearSolver::run() {
     currentTime = 0;
     timeStep = initialTimeStep;
     dataLogger.open(3, bed.numberOfCells, bed.dx);
+    
+    for (int i = 0; i <= totalTime; ++i)
+    {
+        timeQ.push(i);
+    }
 
     // Initialise system of equations
     densitySystem = new ContinuityDensitySystem(&bed, bed.C, 1);
     velocitySystem = new ContinuityVelocitySystem(&bed, bed.U, 1);
     temperatureSystem = new AdvectionDiffusionSystem(&bed, bed.T, 1);
-
 
     while (currentTime < totalTime)
     {
@@ -24,15 +28,6 @@ void NonLinearSolver::run() {
         {
             //successfulStep = outerItteration.solve(timeStep, currentTime);
             successfulStep = outerItteration();
-        }
-
-        if (successfulStep)
-        {
-            // Log successful step
-            std::cout << "time: " << currentTime << "\ttime step: " << timeStep << "\n";
-            dataLogger.log(0, currentTime, densitySystem->x);
-            dataLogger.log(1, currentTime, velocitySystem->x);
-            dataLogger.log(2, currentTime, temperatureSystem->x);
         }
 
     }
@@ -67,6 +62,7 @@ bool NonLinearSolver::outerItteration() {
 
 void NonLinearSolver::acceptStep() {
 
+    log(currentTime);
     currentTime += timeStep;
     timeStep *= 2;
     if (timeStep > 1) // Max time step
@@ -98,6 +94,7 @@ void NonLinearSolver::rejectStep() {
 
 
 void NonLinearSolver::updateSystemError() {
+
     // Update the overall error. This must only be called after all function inner itterations are complete
     outerError = 0;
     outerError += densitySystem->evaluateError(timeStep);
@@ -109,8 +106,21 @@ void NonLinearSolver::updateSystemError() {
 
 
 void NonLinearSolver::innerItterations() {
+
     densitySystem->innerItteration(maxItterations, innerTolerance, timeStep);
     velocitySystem->innerItteration(maxItterations, innerTolerance, timeStep);
     temperatureSystem->innerItteration(maxItterations, innerTolerance, timeStep);
+
 }
 
+
+void NonLinearSolver::log(const double& time) {
+    // Log successful step
+    if (time >= timeQ.front()) {
+        timeQ.pop();
+        std::cout << "time: " << currentTime << "\ttime step: " << timeStep << "\n";
+        dataLogger.log(0, currentTime, densitySystem->x);
+        dataLogger.log(1, currentTime, velocitySystem->x);
+        dataLogger.log(2, currentTime, temperatureSystem->x);
+    }
+}

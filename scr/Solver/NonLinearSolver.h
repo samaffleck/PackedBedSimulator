@@ -1,5 +1,7 @@
 #pragma once
 
+#include <queue>
+
 #include "../PDEs/INonLinearSystem.h"
 #include "../DataLogger/DataLogger.h"
 #include "../SystemObjects/PackedBed.h"
@@ -43,6 +45,8 @@ public:
     double outerTolerance{};
     double innerTolerance{};
 
+    std::queue<int> timeQ;
+
     PackedBed& bed;
     DataLogger dataLogger;
 
@@ -56,5 +60,6 @@ public:
     void rejectStep();
     void updateSystemError();
     void innerItterations();
+    void log(const double& time);
 
 };

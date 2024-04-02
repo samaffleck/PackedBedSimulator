@@ -8,8 +8,8 @@ class PackedBed;
 
 class IStep {
 public:
-	IStep() {}
-	virtual ~IStep() {}
+	IStep() = default;
+	virtual ~IStep() = default;
 
 	const double R = 8.314;
 

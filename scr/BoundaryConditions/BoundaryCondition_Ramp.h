@@ -3,7 +3,6 @@
 #include "IBoundaryCondition.h"
 
 class BoundaryCondition_Ramp :public IBoundaryCondition {
-
 public:
 
 	BoundaryCondition_Ramp(double _initialBoundaryValue, double _stepBoundaryValue, double _rampTime) :
