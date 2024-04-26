@@ -8,7 +8,7 @@ double Pressurize::inletDensityRHS(PackedBed* bed, const std::vector<double>& x,
             (x[0] * bed->T[0] * R - inletPressure->boundaryValue)));
 }
 
-double Pressurize::outletDensityRHS() {
+double Pressurize::outletDensityRHS(PackedBed* bed, const std::vector<double>& x, const std::vector<std::vector<double>>& xPrev, const double& dt) {
     // None required
     return 0;
 }

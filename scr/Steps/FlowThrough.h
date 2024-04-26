@@ -19,7 +19,7 @@ public:
 	IBoundaryCondition* inletTemperature = nullptr;
 
 	double inletDensityRHS(PackedBed* bed, const std::vector<double>& x, const std::vector<std::vector<double>>& xPrev, const double& dt) override;
-	double outletDensityRHS() override;
+	double outletDensityRHS(PackedBed* bed, const std::vector<double>& x, const std::vector<std::vector<double>>& xPrev, const double& dt) override;
 
 	double inletVelocityRHS(PackedBed* bed) override;
 	double outletVelocityRHS(PackedBed* bed) override;

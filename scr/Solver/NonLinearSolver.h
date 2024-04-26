@@ -36,7 +36,8 @@ public:
     double totalTime;
     double initialTimeStep;
     double timeStep{};
-    double minimumTimeStep = 0.00000001;
+    double minimumTimeStep = 1e-10;     // [s]
+    double maxTimeStep = 1.0;           // [s]
     bool successfulStep = false;
 
     int outerItterations{};
@@ -58,8 +59,10 @@ public:
     bool outerItteration();
     void acceptStep();
     void rejectStep();
-    void updateSystemError();
-    void innerItterations();
+    bool updateSystemError();
     void log(const double& time);
+    void SIMPLE();
+    void LAPLACE();
+    void DENSITY();
 
 };

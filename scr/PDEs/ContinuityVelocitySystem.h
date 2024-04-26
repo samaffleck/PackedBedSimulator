@@ -17,5 +17,12 @@ public:
     ~ContinuityVelocitySystem() {}
 
     void updateRHS(const double& dt) override;
+    void updateVelocity();
+    void updateLinkCoefficients(const double& dt) override {};
+    void correctVelocity();
+
+private:
+
+    const double alpha = 0.6;   // Damping factor
 
 };

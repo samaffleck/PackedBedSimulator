@@ -34,19 +34,24 @@ public:
 	double dp;			// Particle diameter
 	double kappa;		// Pereability
 	double viscosity; 
-	int order = 1;
+	int order = 6;
 	double dx{};
 	const double R = 8.314;
 	double lambda = 1e-4;
+	const double referencePressure = 1.01325e5;
 
 	// Initial conditions
 	std::vector<double> C{};	// Molar density [mol/m3]
 	std::vector<double> U{};	// Velocity [m/s]
 	std::vector<double> T{};	// Temperature [K]
+	std::vector<double> P{};	// Gague pressure [Pa]
+	std::vector<double> P_old{};// Old gague pressure [Pa]
+	std::vector<double> dP{};	// Gague pressure correction [Pa]
 
 	IStep* step = nullptr;
 
 	void initialise(const int& systemSize, const double& initialTemperature, const double& initialVelocity, const double& initialPressure);
 	void selectStep(IStep* _step);
+	void updateConstants();
 
 };

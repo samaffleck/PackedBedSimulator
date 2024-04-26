@@ -17,5 +17,16 @@ public:
     ~ContinuityDensitySystem() {}
     
     void updateRHS(const double& dt) override;
+    void updateLinkCoefficients(const double& dt) override;
+    void BDF_1(const double& dt);
+    void BDF_1_Density(const double& dt);
+    void BDF_2(const double& dt);
+    void BDF_3(const double& dt);
+    void BDF_4(const double& dt);
+    void BDF_5(const double& dt);
+    void BDF_6(const double& dt);
+    void CN(const double& dt);
+    void SIMPLE(const double& dt);
+    void correctPressure();
 
 };

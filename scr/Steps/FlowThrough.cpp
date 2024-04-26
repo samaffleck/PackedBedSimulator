@@ -3,24 +3,82 @@
 #include <vector>
 
 double FlowThrough::inletDensityRHS(PackedBed* bed, const std::vector<double>& x, const std::vector<std::vector<double>>& xPrev, const double& dt) {
-    return (xPrev[0][0] -
-        (2 * dt / (bed->dx)) *
-        ((x[0] * bed->U[0]) - (inletVelocity->boundaryValue * x[0] + bed->dx * bed->viscosity * inletVelocity->boundaryValue * inletVelocity->boundaryValue / (2 * bed->kappa * R * bed->T[0]))));
+    
+    // staggered grid
+    /*
+    const double Tin = inletTemperature->boundaryValue;
+    const double Uin = inletVelocity->boundaryValue;
+    const double vis = bed->viscosity;
+    const double dx = bed->dx;
+    const double kap = bed->kappa;
+
+    double Cinlet = (1 / (R * Tin)) * 
+        (bed->P[0] + bed->referencePressure + (Uin * vis * dx / (2 * kap)));
+    //return Cinlet * Uin / dx;
+    //return bed->C[0] * Uin / dx;
+    */
+
+    // Density
+    const double molarFluxIn = inletVelocity->boundaryValue; // TODO: This is molar flux, so rename to molar flux instead of inlet velocity
+    return molarFluxIn / bed->dx;
+
 }
 
-double FlowThrough::outletDensityRHS() {
-    // None required
-    return 0;
+double FlowThrough::outletDensityRHS(PackedBed* bed, const std::vector<double>& x, const std::vector<std::vector<double>>& xPrev, const double& dt) {
+    
+    // Stagered pressure source 
+    /*
+    const int N = bed->numberOfCells;
+    const double dx_inv = 1 / bed->dx;
+    const double ap = -bed->viscosity * bed->dx / bed->kappa;
+    const double Pout = outletPressure->boundaryValue;
+    const double UN = (2 / ap) * (Pout - bed->P[N - 1]);
+    //const double UN = (1 / ap) * (6 * Pout - 7 * bed->P[N - 1] + bed->P[N - 2]);
+
+    //return -(UN * dx_inv * (Pout + bed->referencePressure) / (R * bed->T[N - 1]));
+    */
+
+    // Stagered density source
+    const int N = bed->numberOfCells;
+    const double ap = -bed->viscosity * bed->dx / bed->kappa;
+    const double Pout = outletPressure->boundaryValue;
+    const double UN = bed->U[N];
+    //const double UN = (2 / ap) * (Pout - bed->P[N - 1]);
+    const double Cout = (Pout + bed->referencePressure) / (R * bed->T[N - 1]);
+
+    return -(UN * Cout / bed->dx);
+
 }
 
 double FlowThrough::inletVelocityRHS(PackedBed* bed) {
-    return (inletVelocity->boundaryValue / 2 -
-        (bed->kappa * R / (2 * bed->dx * bed->viscosity)) * (bed->C[1] * bed->T[1] - bed->C[0] * bed->T[0]));
+    // For staggered grid
+    //return inletVelocity->boundaryValue;
+
+    // Density solver on stagered grid
+    const double ap = bed->viscosity * bed->dx / (2 * bed->kappa);
+    const double molarFluxIn = inletVelocity->boundaryValue; // TODO: rename.
+    double Uin = molarFluxIn / bed->C[0]; // Initial guess;
+    double Cin = (bed->P[0] + bed->referencePressure + ap * Uin ) / (R * inletTemperature->boundaryValue);
+    double Uin_old = 100 * Uin; // To get in the loop;
+    
+    while ((Uin - Uin_old) / Uin > 1e-5) {
+        Uin_old = Uin;
+        Uin = molarFluxIn / Cin;
+        Cin = (bed->P[0] + bed->referencePressure + ap * Uin) / (R * inletTemperature->boundaryValue);
+    }
+
+    return Uin;
+
 }
 
 double FlowThrough::outletVelocityRHS(PackedBed* bed) {
-    return ((-bed->kappa / (bed->dx * bed->viscosity)) * (outletPressure->boundaryValue -
-        0.5 * R * (bed->C[bed->numberOfCells - 1] * bed->T[bed->numberOfCells - 1] + bed->C[bed->numberOfCells - 2] * bed->T[bed->numberOfCells - 2])));
+    // For staggered grid
+    const int N = bed->numberOfCells;
+    const double d = -bed->kappa / (bed->viscosity * bed->dx);
+    const double Pout = outletPressure->boundaryValue;
+    
+    return 2 * d * (Pout - bed->P[N - 1]);
+    
 }
 
 double FlowThrough::inletTemperatureRHS(PackedBed* bed, const std::vector<double>& x, const std::vector<std::vector<double>>& xPrev, const double& dt) {

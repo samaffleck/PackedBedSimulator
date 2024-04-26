@@ -45,6 +45,9 @@
     <ClCompile Include="scr\Solver\NonLinearSolver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="scr\Solver\ThomasAlgorithm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scr\VectorFunctions\VectorNorm.h">
@@ -99,6 +102,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="scr\BoundaryConditions\BoundaryCondition_Ramp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="scr\Solver\ThomasAlgoritms.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

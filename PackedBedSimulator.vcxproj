@@ -138,6 +138,7 @@
     <ClCompile Include="scr\PDEs\INonLinearSystem.cpp" />
     <ClCompile Include="scr\Simulator.cpp" />
     <ClCompile Include="scr\Solver\NonLinearSolver.cpp" />
+    <ClCompile Include="scr\Solver\ThomasAlgorithm.cpp" />
     <ClCompile Include="scr\Steps\FlowThrough.cpp" />
     <ClCompile Include="scr\Steps\Pressurize.cpp" />
     <ClCompile Include="scr\SystemObjects\PackedBed.cpp" />
@@ -155,6 +156,7 @@
     <ClInclude Include="scr\PDEs\AdvectionDiffusionSystem.h" />
     <ClInclude Include="scr\PDEs\INonLinearSystem.h" />
     <ClInclude Include="scr\Solver\NonLinearSolver.h" />
+    <ClInclude Include="scr\Solver\ThomasAlgoritms.h" />
     <ClInclude Include="scr\Steps\FlowThrough.h" />
     <ClInclude Include="scr\Steps\IStep.h" />
     <ClInclude Include="scr\Steps\Pressurize.h" />

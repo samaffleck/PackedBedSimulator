@@ -17,5 +17,6 @@ public:
     ~AdvectionDiffusionSystem() {}
 
     void updateRHS(const double& dt) override;
+    void updateLinkCoefficients(const double& dt) override {};
 
 };
